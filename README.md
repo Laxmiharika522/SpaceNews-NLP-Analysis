@@ -10,7 +10,7 @@ Below is a collection of all the graphs and visualizations generated during the 
 ![Data Processing Pipeline](pipeline.png)
 
 ### Category Distribution
-![Category Distribution](category_distribution.png)
+![Category Distribution](https://github.com/Laxmiharika522/SpaceNews-NLP-Analysis/blob/38e1150a81046e817fcd3df79740ce1cec776b7e/Category%20Distribution.png)
 
 ### Word Clouds
 ![Word Clouds](wordclouds.png)
