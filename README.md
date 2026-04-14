@@ -25,7 +25,7 @@ Below is a collection of all the graphs and visualizations generated during the 
 ![LDA Topics Analysis](https://github.com/Laxmiharika522/SpaceNews-NLP-Analysis/blob/061b0a25d84fa3e3d8844a164c7339f2c4d3f26b/LDA%20Topics%20Analysis.png)
 
 ### Keyword Trends
-![Keyword Trends](https://github.com/Laxmiharika522/SpaceNews-NLP-Analysis/blob/d01afc86e8f257614c13cfec4443df0f5287cc7e/Keyword%20Trends.png)
+![Keyword Trends](https://github.com/Laxmiharika522/SpaceNews-NLP-Analysis/blob/c734d08dae686721164079bf3d5fa92994043c7e/Keyword%20Trends.png)
 
 ### NER (Named Entity Recognition) Analysis
 ![NER Analysis](https://github.com/Laxmiharika522/SpaceNews-NLP-Analysis/blob/b95d222b8fc48511b63ae7a8be11afcf61dd4644/NER%20Analysis.png)
