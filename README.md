@@ -16,7 +16,7 @@ Below is a collection of all the graphs and visualizations generated during the 
 ![Word Clouds](https://github.com/Laxmiharika522/SpaceNews-NLP-Analysis/blob/270e000e28cc01dc6c64d323caf0f691593b4f6b/Word%20Clouds.png)
 
 ### Topic Distribution
-![Topic Distribution](topic_distribution.png)
+![Topic Distribution](https://github.com/Laxmiharika522/SpaceNews-NLP-Analysis/blob/03ded12cdd62f5fa9005b5b08083d23e5166ff4b/Topic%20Distribution.png)
 
 ### Topic Trends Over Time
 ![Topic Trends Over Time](https://github.com/Laxmiharika522/SpaceNews-NLP-Analysis/blob/07c630ec261030fbd1b85359f1757787ea2501b2/Topic%20Trends%20Over%20Time.png)
