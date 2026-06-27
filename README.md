@@ -1,6 +1,6 @@
 # 🚀 Space News NLP Analysis
 
-A comprehensive Natural Language Processing (NLP) project that analyzes thousands of space news articles spanning **2010–2024** to uncover sentiment patterns, key topics, trending keywords, and agency-level insights using classical ML and NLP techniques.
+A comprehensive **Natural Language Processing** project that analyzes space news articles from **2010 to 2024**, applying a full NLP pipeline — from text preprocessing to topic modeling, sentiment analysis, named entity recognition, and machine learning classification — to extract meaningful insights from real-world media data.
 
 ---
 
@@ -19,36 +19,33 @@ A comprehensive Natural Language Processing (NLP) project that analyzes thousand
 
 ## Overview
 
-This project applies a full NLP pipeline to a large corpus of space news articles to answer questions like:
+This project investigates how space exploration is reported across major agencies and over time. Using a corpus of thousands of news articles, it answers questions such as:
 
-- How has the **sentiment** of space news evolved over the years?
-- Which **space agencies** (NASA, ISRO, SpaceX, ESA, CNSA) dominate the coverage?
-- What are the most significant **topics and keywords** across different eras?
-- Can a machine learning model **classify** articles by mission type?
-- What **named entities** (organizations, locations) appear most frequently?
+- How has the **tone and sentiment** of space news shifted from 2010 to 2024?
+- Which **space agencies** — NASA, ISRO, SpaceX, ESA, CNSA — receive the most media coverage, and how does their sentiment compare?
+- What **topics and keywords** define different eras of space reporting?
+- How do **language patterns** differ between mission successes and failures?
+- Can a machine learning model **accurately classify** articles by mission category?
+
+The notebook walks through every step of the analysis with visualizations and observations at each stage.
 
 ---
 
 ## Dataset
 
-> **⚠️ The dataset is not included in this repository due to its large size (~85 MB).**
+The dataset used in this project is publicly available on Kaggle:
 
-**Download it from Kaggle:**
+[![Kaggle](https://img.shields.io/badge/Kaggle-Space%20News%20Dataset-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/datasets/patrickfleith/space-news-dataset)
 
-[![Kaggle Dataset](https://img.shields.io/badge/Kaggle-Space%20News%20Dataset-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/datasets/patrickfleith/space-news-dataset)
+**🔗** [https://www.kaggle.com/datasets/patrickfleith/space-news-dataset](https://www.kaggle.com/datasets/patrickfleith/space-news-dataset)
 
-🔗 **Direct Link:** [https://kaggle.com/datasets/patrickfleith/space-news-dataset](https://kaggle.com/datasets/patrickfleith/space-news-dataset)
+| Field | Details |
+|---|---|
+| **Source** | Space News articles from multiple publishers |
+| **Coverage** | 2010 – 2024 |
+| **Key Columns** | `title`, `text` / `body`, `date`, `source` |
 
-After downloading, place the file as:
-```
-dataset/spacenews.csv
-```
-
-**Dataset Details:**
-- **Source:** Space News articles aggregated from various publishers
-- **Time Range:** 2010 – 2024
-- **Key Columns:** `title`, `text`/`body`, `date`, `source`
-- **File Size:** ~85 MB (CSV)
+After downloading, place `spacenews.csv` in the **root of the project folder** (same directory as the notebook):
 
 ---
 
@@ -57,109 +54,146 @@ dataset/spacenews.csv
 ```
 SpaceNews-NLP-Analysis/
 │
-├── README.md                          # Project documentation
-├── DataScience_project.ipynb          # Main analysis notebook
-├── images/                            # All generated visualizations
-│   ├── Data Processing Pipeline.png
-│   ├── Category Distribution.png
-│   ├── Word Clouds.png
-│   ├── Topic Distribution.png
-│   ├── Topic Trends Over Time.png
-│   ├── LDA Topics Analysis.png
-│   ├── Keyword Trends.png
-│   ├── NER Analysis.png
-│   ├── N-Gram Analysis.png
-│   ├── N-Gram Positive vs Negative.png
-│   ├── Sentiment Overview.png
-│   ├── Sentiment Trend Over Time.png
-│   ├── Text Length vs Sentiment.png
-│   ├── TF-IDF Overall.png
-│   ├── TF-IDF Per Agency.png
-│   ├── TF-IDF Per Period.png
-│   └── Naive Bayes Results.png
-└── dataset/                           # ⚠️ Not included — download from Kaggle
-    └── spacenews.csv
+├── README.md                        # Project documentation
+├── DataScience_project.ipynb        # Main Jupyter Notebook
+├── spacenews.csv                    # Dataset (download from Kaggle — not tracked in git)
+└── images/                          # All generated visualizations
+    ├── Data Processing Pipeline.png
+    ├── Category Distribution.png
+    ├── Word Clouds.png
+    ├── Topic Distribution.png
+    ├── Topic Trends Over Time.png
+    ├── LDA Topics Analysis.png
+    ├── Keyword Trends.png
+    ├── NER Analysis.png
+    ├── N-Gram Analysis.png
+    ├── N-Gram Positive vs Negative.png
+    ├── Sentiment Overview.png
+    ├── Sentiment Trend Over Time.png
+    ├── Text Length vs Sentiment.png
+    ├── TF-IDF Overall.png
+    ├── TF-IDF Per Agency.png
+    ├── TF-IDF Per Period.png
+    └── Naive Bayes Results.png
 ```
 
 ---
 
 ## 🛠️ Technologies Used
 
-| Category | Libraries |
+| Category | Tools & Libraries |
 |---|---|
 | **Data Processing** | `pandas`, `numpy` |
-| **NLP & Text** | `nltk`, `spacy` (`en_core_web_sm`), `vaderSentiment` |
-| **Machine Learning** | `scikit-learn` (TF-IDF, Naive Bayes, Label Encoding) |
+| **NLP & Text Processing** | `nltk`, `spaCy` (`en_core_web_sm`), `vaderSentiment` |
+| **Machine Learning** | `scikit-learn` — TF-IDF Vectorizer, Multinomial Naive Bayes |
 | **Topic Modeling** | `gensim` (LDA), `pyLDAvis` |
 | **Visualization** | `matplotlib`, `seaborn`, `wordcloud` |
-| **Language** | Python 3 (Jupyter Notebook) |
+| **Environment** | Python 3, Jupyter Notebook |
 
 ---
 
 ## 🔬 Analysis Pipeline
 
-The project follows a structured NLP workflow:
+### 1. Data Loading & Preprocessing
 
-### 1. 📥 Data Loading & Preprocessing
-- Load `spacenews.csv` and standardize column names
-- Parse and filter dates to the **2010–2024** range
-- Combine `title` + `text` fields into a unified `content` column
-- **Text cleaning pipeline:**
+The raw CSV is loaded and cleaned through a structured pipeline:
+
+- Column names are standardized and date fields are parsed
+- Articles are filtered to the **2010–2024** window
+- The `title` and `text` fields are merged into a single `content` field for analysis
+- Text cleaning steps applied sequentially:
   - Lowercasing
-  - Punctuation & number removal
-  - Stop-word removal (NLTK + domain-specific space words)
-  - Lemmatization (WordNetLemmatizer)
+  - Removal of punctuation and numbers
+  - Stop-word removal using NLTK's English corpus, extended with domain-specific terms (`space`, `mission`, `launch`, `agency`, etc.)
+  - Lemmatization using `WordNetLemmatizer`
 
-### 2. 🏷️ Agency Tagging
-Articles are keyword-tagged into five major space agencies:
-- **NASA** — artemis, james webb, mars rover, nasa
-- **ISRO** — isro, chandrayaan, mangalyaan, india
-- **SpaceX** — spacex, elon, falcon, starship
-- **ESA** — esa, european space, ariane
-- **CNSA** — cnsa, china, tiangong, long march
+### 2. Agency Tagging
 
-### 3. 💬 Sentiment Analysis (VADER)
-- Applied `SentimentIntensityAnalyzer` from the `vaderSentiment` library
-- Compound score thresholds: `≥ 0.05` → Positive, `≤ -0.05` → Negative, else Neutral
-- Tracked **year-by-year sentiment trends** with annotations for major events (Chandrayaan-3, JWST launch, etc.)
+Each article is tagged to one of five major space agencies using keyword matching on the article content:
 
-### 4. 📊 TF-IDF Analysis
-- Extracted **top-20 keywords** from the entire corpus
-- Computed **agency-specific** TF-IDF fingerprints (NASA vs ISRO vs SpaceX, etc.)
-- Analyzed **temporal keyword shifts** across five 3-year periods (2010–2024)
+| Agency | Keywords |
+|---|---|
+| NASA | nasa, artemis, james webb, mars rover |
+| ISRO | isro, chandrayaan, mangalyaan, india |
+| SpaceX | spacex, elon, falcon, starship |
+| ESA | esa, european space, ariane |
+| CNSA | cnsa, china, tiangong, long march |
 
-### 5. 🧠 Topic Modeling (LDA)
-- Built a `gensim` LDA model with **6 discovered topics**:
-  - Lunar Missions, Mars Exploration, Satellite Launch, Human Spaceflight, Space Science, Mission Failures
-- Visualized topic-word probability distributions
-- Tracked **topic dominance over years** to detect trends (e.g., SpaceX's commercial rise from 2015+)
+### 3. Sentiment Analysis — VADER
 
-### 6. ☁️ Word Clouds
-- Generated 4 word clouds: All Articles, NASA-specific, ISRO-specific, Negative Articles
+Sentiment scoring is performed using the **VADER (Valence Aware Dictionary and Sentiment Reasoner)** model, which is well-suited for short, informal text like news headlines:
 
-### 7. 🔤 N-Gram Analysis
-- Extracted **top-15 bigrams and trigrams** from cleaned text
-- Compared bigrams between **Positive vs Negative** articles (e.g., "successful launch" vs "mission failure")
+- `compound ≥ 0.05` → **Positive**
+- `compound ≤ -0.05` → **Negative**
+- Otherwise → **Neutral**
 
-### 8. 👁️ Named Entity Recognition (NER)
-- Used `spaCy` (`en_core_web_sm`) on a 3,000-article sample
-- Identified top **Organizations (ORG)**, **Locations (GPE)**, and **entity type distribution**
+Sentiment is aggregated per agency and tracked year-by-year, with annotations marking key real-world events (JWST launch, Chandrayaan-3, SpaceX Crew Dragon, etc.).
 
-### 9. 🤖 Naive Bayes Classification
-- Created 6 article categories: Lunar Mission, Mars Exploration, Satellite Launch, Human Spaceflight, Space Science, Mission Failure
-- Trained a **Multinomial Naive Bayes** classifier (TF-IDF features, 5,000 max features)
-- Evaluated with a **confusion matrix**, precision, recall, and F1-score
+### 4. TF-IDF Keyword Analysis
+
+TF-IDF (Term Frequency–Inverse Document Frequency) is applied at three levels:
+
+- **Corpus-wide** — top 20 keywords across all articles
+- **Per agency** — distinct vocabulary fingerprints for NASA, ISRO, SpaceX, ESA, and CNSA
+- **Per time period** — keyword evolution across five 3-year windows (2010–12, 2013–15, 2016–18, 2019–21, 2022–24)
+
+### 5. LDA Topic Modeling
+
+Latent Dirichlet Allocation (LDA) via `gensim` is used to discover **6 latent topics** in the corpus:
+
+| Topic | Theme |
+|---|---|
+| Topic 0 | Lunar Missions |
+| Topic 1 | Mars Exploration |
+| Topic 2 | Satellite Launches |
+| Topic 3 | Human Spaceflight |
+| Topic 4 | Space Science & Telescopes |
+| Topic 5 | Mission Failures & Anomalies |
+
+Topic dominance is tracked over time to reveal long-term trends in media focus.
+
+### 6. Word Clouds
+
+Four word clouds are generated from cleaned text, each highlighting a different lens:
+
+- **All Articles** — overall corpus vocabulary
+- **NASA Articles** — NASA-specific language
+- **ISRO Articles** — ISRO-specific language
+- **Negative Articles** — terms associated with setbacks and failures
+
+### 7. N-Gram Analysis
+
+Frequent multi-word phrases are extracted using NLTK's `ngrams`:
+
+- **Top-15 bigrams and trigrams** from the full corpus
+- **Bigram comparison** between Positive and Negative articles, revealing distinct linguistic signals around mission outcomes
+
+### 8. Named Entity Recognition (NER)
+
+Using `spaCy`'s `en_core_web_sm` model on a 3,000-article sample:
+
+- **ORG** — most mentioned space organizations and mission names
+- **GPE** — most mentioned countries and locations
+- **Entity type distribution** — breakdown of all entity categories identified
+
+### 9. Naive Bayes Text Classification
+
+A supervised classification pipeline is built to categorize articles into 6 mission types:
+
+- **Lunar Mission**, **Mars Exploration**, **Satellite Launch**, **Human Spaceflight**, **Space Science**, **Mission Failure**
+
+The model uses TF-IDF features (5,000 features) with an 80/20 train-test split and is evaluated using a confusion matrix, precision, recall, and F1-score.
 
 ---
 
 ## 💡 Key Findings
 
-- 📈 **Sentiment has generally improved** over 2010–2024, with notable positive spikes around **SpaceX Crew Dragon (2020)**, **JWST Launch (2021)**, and **Chandrayaan-3 (2023)**
-- 🏆 **NASA dominates** space news coverage volume, but **ISRO** showed a strong surge post-2019
-- 🚀 **Commercial spaceflight** keywords (SpaceX, Falcon, Starship) have grown dramatically since 2015
-- 🌙 **Mars Exploration** peaked around 2020–21 (Perseverance rover), while **Lunar Missions** gained renewed coverage from 2022 with Artemis and Chandrayaan
-- 📰 Positive articles cluster around **"successful launch"** and **"historic mission"**, while negative articles focus on **"mission abort"**, **"launch delay"**, and **"rocket failure"**
-- 🎯 The **Naive Bayes classifier** effectively distinguishes between mission types using TF-IDF features
+- **Sentiment trends upward** over the 2010–2024 period, with measurable positive peaks around the SpaceX Crew Dragon mission (2020), JWST launch (2021), and Chandrayaan-3 landing (2023).
+- **NASA leads in volume** of coverage, while **ISRO** shows significant growth in article frequency post-2019, reflecting India's expanding space program.
+- **Commercial spaceflight vocabulary** — SpaceX, Falcon, Starship — has grown steadily since 2015, reflecting the rise of private space industry in media coverage.
+- **Mars Exploration** dominated topic trends around 2020–21, corresponding to the Perseverance rover launch; **Lunar Missions** resurged from 2022 with Artemis and Chandrayaan.
+- **Bigram analysis** reveals clear linguistic separation: positive articles use phrases like "successful launch" and "historic mission", while negative articles are characterized by "mission abort", "launch delay", and "rocket failure".
+- The **Naive Bayes classifier** successfully distinguishes mission types, validating that space news articles carry strong domain-specific signals in their language.
 
 ---
 
@@ -226,7 +260,7 @@ Articles are keyword-tagged into five major space agencies:
    cd SpaceNews-NLP-Analysis
    ```
 
-2. **Download the dataset** from [Kaggle](https://kaggle.com/datasets/patrickfleith/space-news-dataset) and place it in the `dataset/` folder as `spacenews.csv`
+2. **Download the dataset** from [Kaggle](https://www.kaggle.com/datasets/patrickfleith/space-news-dataset) and place `spacenews.csv` in the root project folder (same directory as the notebook)
 
 3. **Install dependencies**
    ```bash
@@ -234,12 +268,12 @@ Articles are keyword-tagged into five major space agencies:
    python -m spacy download en_core_web_sm
    ```
 
-4. **Launch the notebook**
+4. **Open the notebook**
    ```bash
    jupyter notebook DataScience_project.ipynb
    ```
 
-5. **Run all cells** — the notebook will preprocess the data, run all analyses, and save all visualizations to the `images/` folder.
+5. **Run all cells** — the notebook executes the full pipeline and saves all visualizations to the `images/` folder.
 
 ---
 
