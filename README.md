@@ -56,7 +56,7 @@ SpaceNews-NLP-Analysis/
 │
 ├── README.md                        # Project documentation
 ├── DataScience_project.ipynb        # Main Jupyter Notebook
-├── spacenews.csv                    # Dataset (download from Kaggle — not tracked in git)
+├── spacenews.csv                    # Dataset (download from Kaggle)
 └── images/                          # All generated visualizations
     ├── Data Processing Pipeline.png
     ├── Category Distribution.png
